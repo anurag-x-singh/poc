@@ -1,5 +1,5 @@
 {
-	"name": "SQL script 1",
+	"name": "usp_select_1",
 	"properties": {
 		"content": {
 			"query": "CREATE PROCEDURE Select1\nAS\nSELECT 1\nGO;",
