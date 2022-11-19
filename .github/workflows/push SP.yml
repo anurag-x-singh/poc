@@ -97,11 +97,12 @@ jobs:
                                 print("\n[DEBUG] file is eligible for creating SP -> " + file)
 
                                 try:
+                                    file = str(file) #only used for .sql file
                                     with open(file) as f:
                                         #query_json = json.load(f)
                                         #sp_query = (query_json['properties']['content']['query'])
-                                        sp_query = str(f)
-                                        exec_sql_file(cursor, sp_query)
+                                        #sp_query = str(f)
+                                        exec_sql_file(cursor, f)
                                 except:
                                     print("\n\n[WARN] No SQL file found")
 
