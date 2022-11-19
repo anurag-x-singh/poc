@@ -79,7 +79,7 @@ jobs:
                         # ---- getting the directory list
                         dir_list = []
                         for dirpath, subdirs, files in os.walk(".", topdown=False):
-                            if dirpath.__contains__("sqlscript"):
+                            if dirpath.__contains__("Business Rules"):
                                 for x in files:
                                     #if x.endswith(".json"):
                                     if x.endswith(".sql"):
