@@ -1,0 +1,17 @@
+{
+	"name": "usp_test_1",
+	"properties": {
+		"content": {
+			"query": "CREATE PROCEDURE core.usp_test_1\nAS \nSELECT 2;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
