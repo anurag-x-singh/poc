@@ -1,0 +1,3 @@
+CREATE PROCEDURE core.usp_test_1
+AS 
+SELECT 2;
