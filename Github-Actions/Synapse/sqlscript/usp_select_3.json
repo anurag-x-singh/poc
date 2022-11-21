@@ -1,0 +1,17 @@
+{
+	"name": "usp_select_3",
+	"properties": {
+		"content": {
+			"query": "CREATE PROCEDURE core.Select3\nAS\nSELECT 3;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "testdb",
+				"poolName": "testdb"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
