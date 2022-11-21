@@ -1,0 +1,17 @@
+{
+	"name": "usp_select_2",
+	"properties": {
+		"content": {
+			"query": "CREATE PROCEDURE core.Select2\nAS\nSELECT 2;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
