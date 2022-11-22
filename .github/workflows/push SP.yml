@@ -1,4 +1,4 @@
-name: [PROD] Stored Procedure Deployment
+name: PROD Stored Procedure Deployment
 
 on:
   push:
