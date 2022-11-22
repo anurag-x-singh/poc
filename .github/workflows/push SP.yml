@@ -1,4 +1,4 @@
-name: Run Stored procedure push to Prod
+name: [PROD] Stored Procedure Deployment
 
 on:
   push:
