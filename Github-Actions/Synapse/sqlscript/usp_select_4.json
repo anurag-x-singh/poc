@@ -1,0 +1,17 @@
+{
+	"name": "usp_select_4",
+	"properties": {
+		"content": {
+			"query": "CREATE PROCEDURE core.Select4\nAS\nSELECT 1;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
