@@ -33,6 +33,7 @@ jobs:
 
     create-stored-proc-definition:
       runs-on: windows-latest
+      needs: Synapse-artifact-promotion
       steps:
         - uses: actions/checkout@v2
         - uses: actions/setup-python@v2
