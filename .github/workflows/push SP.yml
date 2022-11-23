@@ -30,111 +30,111 @@ jobs:
             ArtifactsFolder: 'Github-Actions/Synapse'
             operation: 'validateDeploy'
             managedIdentity: 'False'
+
+    create-stored-proc-definition:
+      runs-on: windows-latest
+      steps:
+        - uses: actions/checkout@v2
+        - uses: actions/setup-python@v2
+        - uses: jannekem/run-python-script-action@v1
+          with:
+            script: |
+                  print("\n-----------------------------------------------------------------------")
+                  print("[DEBUG] Starting github action for syncing Stored procedures...")
+                  print("-----------------------------------------------------------------------")
+                  print("\n[DEBUG] Installing pyodbc driver on VM...")
+                  import sys
+                  import subprocess
+                  import os
+                  import re
+                  import json
   
-  create-stored-proc-definition:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - uses: jannekem/run-python-script-action@v1
-        with:
-          script: |
-                print("\n-----------------------------------------------------------------------")
-                print("[DEBUG] Starting github action for syncing Stored procedures...")
-                print("-----------------------------------------------------------------------")
-                print("\n[DEBUG] Installing pyodbc driver on VM...")
-                import sys
-                import subprocess
-                import os
-                import re
-                import json
-
-                # implement pip as a subprocess:
-                subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pyodbc'])
-
-                import pyodbc
-
-                print("\n[DEBUG] Installing pyodbc driver on VM completed....")
-
-
-                def exec_sql_file(cursor, sql_file):
-                    # print("\n[DEBUG] Executing SQL script file: '%s'...." % (sql_file))
-                    statement = ""
-                    #sql_file = str(sql_file)
-                    for line in sql_file:
-                        try:
-                            if re.match(r'--', line):  # ignore sql comment lines
-                                continue
-                            else:  # when you get a line ending in ';' then exec statement and reset for next statement
-                                statement = statement + line
-                        except Exception as e:
-                            statement = " "
-                            print("\n\n[WARN] Error in executing...'%s'" % (str(e)))
-
-                    try:
-                        print("\n****************************\n")
-                        print("[DEBUG] Executing  Stored proc :\n%s" % (statement))
-                        print("****************************\n")
-                        cursor.execute(statement)
-                    except Exception as e:
-                        print("\n\n[WARN] SQL Error during execute statement \n\tArgs: '%s'" % (str(e)))
-
-
-                with pyodbc.connect(
-                        'Driver={ODBC Driver 17 for SQL Server};Server=tcp:cicd-sw-prd.sql.azuresynapse.net,1433;Database=proddb;Uid=sqladminuser;Pwd=Madara2791!;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;') as conn:
-                    with conn.cursor() as cursor:
-                        conn.autocommit = True
-                        cursor.execute(
-                            "SELECT concat(ROUTINE_SCHEMA,'.',ROUTINE_NAME) as stored_procs FROM proddb.INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE'")
-                        result = cursor.fetchall()
-                        list_sp = []
-                        for row in result:
-                            # words.append(row['unites_lexicales'])
-                            list_sp.append(row[0])
-                        print("\n[DEBUG] Found below stored procedures in synapse -> ")
-                        print(list_sp)
-
-                        if len(list_sp) > 0:
-                            for sp_name in list_sp:
-                                print("\n[DEBUG] Dropping procedure " + sp_name)
-                                drop_sp = 'DROP PROCEDURE ' + sp_name + ';'
-                                cursor.execute(drop_sp)
-                                print("\n[DEBUG] Dropped procedure " + sp_name)
-
-                        # ---- getting the directory list
-                        dir_list = []
-                        for dirpath, subdirs, files in os.walk(".", topdown=False):
-                            if dirpath.__contains__("Business Rules"):
-                                for x in files:
-                                    #if x.endswith(".json"):
-                                    if x.endswith(".sql"):
-                                        dir_list.append(os.path.join(dirpath, x))
-
-                        print("\n[DEBUG] List of github directory that contains stored procedures -> ")
-                        print(dir_list)
-
-                        # ---- Listing all SP under core and deleting them and inserting new ones
-                        # ---- searching for sql json files and inserting them into the Db
-                        for file in dir_list:
-                            print("\n[DEBUG] file to check -> " + file)
-                            if 1 == 1:
-                                # if file.__contains__("CREATE PROCEDURE"):
-                                print("\n[DEBUG] file is eligible for creating SP -> " + file)
-
-                                try:
-                                    file = str(file) #only used for .sql file
-                                    with open(file) as f:
-                                        #query_json = json.load(f)
-                                        #sp_query = (query_json['properties']['content']['query'])
-                                        #sp_query = str(f)
-                                        exec_sql_file(cursor, f)
-                                except:
-                                    print("\n\n[WARN] No SQL file found")
-
-                print("\n-----------------------------------------------------------------------")
-                print("[DEBUG] Completed github action for syncing Stored procedures...")
-                print("-----------------------------------------------------------------------")
-
-
-
-
+                  # implement pip as a subprocess:
+                  subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pyodbc'])
+  
+                  import pyodbc
+  
+                  print("\n[DEBUG] Installing pyodbc driver on VM completed....")
+  
+  
+                  def exec_sql_file(cursor, sql_file):
+                      # print("\n[DEBUG] Executing SQL script file: '%s'...." % (sql_file))
+                      statement = ""
+                      #sql_file = str(sql_file)
+                      for line in sql_file:
+                          try:
+                              if re.match(r'--', line):  # ignore sql comment lines
+                                  continue
+                              else:  # when you get a line ending in ';' then exec statement and reset for next statement
+                                  statement = statement + line
+                          except Exception as e:
+                              statement = " "
+                              print("\n\n[WARN] Error in executing...'%s'" % (str(e)))
+  
+                      try:
+                          print("\n****************************\n")
+                          print("[DEBUG] Executing  Stored proc :\n%s" % (statement))
+                          print("****************************\n")
+                          cursor.execute(statement)
+                      except Exception as e:
+                          print("\n\n[WARN] SQL Error during execute statement \n\tArgs: '%s'" % (str(e)))
+  
+  
+                  with pyodbc.connect(
+                          'Driver={ODBC Driver 17 for SQL Server};Server=tcp:cicd-sw-prd.sql.azuresynapse.net,1433;Database=proddb;Uid=sqladminuser;Pwd=Madara2791!;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;') as conn:
+                      with conn.cursor() as cursor:
+                          conn.autocommit = True
+                          cursor.execute(
+                              "SELECT concat(ROUTINE_SCHEMA,'.',ROUTINE_NAME) as stored_procs FROM proddb.INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE'")
+                          result = cursor.fetchall()
+                          list_sp = []
+                          for row in result:
+                              # words.append(row['unites_lexicales'])
+                              list_sp.append(row[0])
+                          print("\n[DEBUG] Found below stored procedures in synapse -> ")
+                          print(list_sp)
+  
+                          if len(list_sp) > 0:
+                              for sp_name in list_sp:
+                                  print("\n[DEBUG] Dropping procedure " + sp_name)
+                                  drop_sp = 'DROP PROCEDURE ' + sp_name + ';'
+                                  cursor.execute(drop_sp)
+                                  print("\n[DEBUG] Dropped procedure " + sp_name)
+  
+                          # ---- getting the directory list
+                          dir_list = []
+                          for dirpath, subdirs, files in os.walk(".", topdown=False):
+                              if dirpath.__contains__("Business Rules"):
+                                  for x in files:
+                                      #if x.endswith(".json"):
+                                      if x.endswith(".sql"):
+                                          dir_list.append(os.path.join(dirpath, x))
+  
+                          print("\n[DEBUG] List of github directory that contains stored procedures -> ")
+                          print(dir_list)
+  
+                          # ---- Listing all SP under core and deleting them and inserting new ones
+                          # ---- searching for sql json files and inserting them into the Db
+                          for file in dir_list:
+                              print("\n[DEBUG] file to check -> " + file)
+                              if 1 == 1:
+                                  # if file.__contains__("CREATE PROCEDURE"):
+                                  print("\n[DEBUG] file is eligible for creating SP -> " + file)
+  
+                                  try:
+                                      file = str(file) #only used for .sql file
+                                      with open(file) as f:
+                                          #query_json = json.load(f)
+                                          #sp_query = (query_json['properties']['content']['query'])
+                                          #sp_query = str(f)
+                                          exec_sql_file(cursor, f)
+                                  except:
+                                      print("\n\n[WARN] No SQL file found")
+  
+                  print("\n-----------------------------------------------------------------------")
+                  print("[DEBUG] Completed github action for syncing Stored procedures...")
+                  print("-----------------------------------------------------------------------")
+  
+  
+  
+  
