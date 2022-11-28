@@ -1,3 +1,3 @@
-CREATE PROCEDURE core.Select_az
+ALTER PROCEDURE core.Select_az
 AS
-SELECT 3;
+SELECT 5;
