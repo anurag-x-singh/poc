@@ -1,0 +1,17 @@
+{
+	"name": "usp_select_az",
+	"properties": {
+		"content": {
+			"query": "CREATE PROCEDURE core.Select_az\nAS\nSELECT 1;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
