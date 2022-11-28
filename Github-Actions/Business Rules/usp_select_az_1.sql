@@ -1,0 +1,3 @@
+CREATE PROCEDURE core.Select_az
+AS
+SELECT 1;
