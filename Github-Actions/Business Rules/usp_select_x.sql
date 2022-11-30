@@ -1,3 +1,0 @@
-CREATE PROCEDURE core.Selectx
-AS
-SELECT 1;
