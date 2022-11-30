@@ -1,3 +1,0 @@
-CREATE PROCEDURE core.Select1
-AS
-SELECT 1;
