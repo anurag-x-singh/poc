@@ -1,3 +1,0 @@
-ALTER PROCEDURE core.Select_az
-AS
-SELECT 5;
