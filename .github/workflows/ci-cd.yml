@@ -58,7 +58,8 @@ jobs:
   
   
                   with pyodbc.connect(
-                          'Driver={ODBC Driver 17 for SQL Server};Server=tcp:cicd-sw-prd.sql.azuresynapse.net,1433;Database=proddb;Uid=sqladminuser;Pwd=Madara2791!;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;') as conn:
+                          #'Driver={ODBC Driver 17 for SQL Server};Server=tcp:cicd-sw-prd.sql.azuresynapse.net,1433;Database=proddb;Uid=sqladminuser;Pwd=Madara2791!;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;') as conn:
+                          'Driver={ODBC Driver 17 for SQL Server};Server=tcp:testpwcccisynasewu2.sql.azuresynapse.net,1433;Database=testpwcccisqlpoolwu2;Uid=anurag.singh@consumercellular.com;Pwd=Madara2791!;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;Authentication=ActiveDirectoryPassword') as conn:
                       with conn.cursor() as cursor:
                           conn.autocommit = True
                           cursor.execute(
@@ -73,10 +74,9 @@ jobs:
   
                           if len(list_sp) > 0:
                               for sp_name in list_sp:
-                                  print("\n[DEBUG] Dropping procedure " + sp_name)
-                                  drop_sp = 'DROP PROCEDURE ' + sp_name + ';'
-                                  cursor.execute(drop_sp)
-                                  print("\n[DEBUG] Dropped procedure " + sp_name)
+                                  #print("\n[DEBUG] Dropping procedure " + sp_name)
+                                  #drop_sp = 'DROP PROCEDURE ' + sp_name + ';'
+                                  print("\n[DEBUG] Listing procedure " + sp_name)
   
                           # ---- getting the directory list
                           dir_list = []
