@@ -62,7 +62,7 @@ jobs:
                           'Driver={ODBC Driver 17 for SQL Server};Server=tcp:testpwcccisynasewu2.sql.azuresynapse.net,1433;Database=testpwcccisqlpoolwu2;Uid=anurag.singh@consumercellular.com;Pwd=Madara2791!;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;Authentication=ActiveDirectoryPassword') as conn:
                       with conn.cursor() as cursor:
                           conn.autocommit = True
-                          # cursor.execute(
+                          cursor.execute(
                               "SELECT concat(ROUTINE_SCHEMA,'.',ROUTINE_NAME) as stored_procs FROM testpwcccisqlpoolwu2.INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE'")
                           result = cursor.fetchall()
                           list_sp = []
