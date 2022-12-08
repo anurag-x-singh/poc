@@ -1,4 +1,4 @@
-CREATE PROCEDURE test.yyyyyyyy_insert_persons 
+CREATE PROCEDURE test.zzzzzzzzz_insert_persons 
 AS 
 BEGIN 
 
